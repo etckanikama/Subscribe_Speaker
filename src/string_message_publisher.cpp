@@ -9,15 +9,15 @@ using namespace std::chrono_literals;
 
 
 
-class EspeakSubscriber : public rclcpp::Node
+class EspeakPublisher : public rclcpp::Node
 {
   public:
-    EspeakSubscriber()
+    EspeakPublisher()
     : Node("string_publisher"),count_(0)
     {
       publisher_ = this->create_publisher<std_msgs::msg::String>("topic_name", 10);
       timer_ = this->create_wall_timer(
-      500ms, std::bind(&EspeakSubscriber::timer_callback, this));
+      500ms, std::bind(&EspeakPublisher::timer_callback, this));
     }
 
   private:
@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
 {
   rclcpp::init(argc, argv);
   auto node = rclcpp::Node::make_shared("string_publisher");
-  rclcpp::spin(std::make_shared<EspeakSubscriber>());
+  rclcpp::spin(std::make_shared<EspeakPublisher>());
   RCLCPP_INFO(node->get_logger(),"hello\n");
   rclcpp::shutdown();
   return 0;
